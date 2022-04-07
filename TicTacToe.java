@@ -306,10 +306,8 @@ public class TicTacToe {
 
         for (int i = 0; i < 3; i++) {
 
-            if ((gameMatrix[i][0].equals(symbol) || gameMatrix[i][0].equals(symbol)) && (gameMatrix[i][1].equals(symbol) ||
-                    gameMatrix[i][1].equals(symbol)) && (gameMatrix[i][2].equals(symbol) || gameMatrix[i][2].equals(symbol)) ||
-                    ((gameMatrix[0][i].equals(symbol) || gameMatrix[0][i].equals(symbol)) && (gameMatrix[1][i].equals(symbol) ||
-                            gameMatrix[1][i].equals(symbol)) && (gameMatrix[2][i].equals(symbol) || gameMatrix[2][i].equals(symbol)))) {
+            if (gameMatrix[i][0].equals(symbol) && gameMatrix[i][1].equals(symbol) && gameMatrix[i][2].equals(symbol) ||
+                    gameMatrix[0][i].equals(symbol) && gameMatrix[1][i].equals(symbol) && gameMatrix[2][i].equals(symbol)) {
 
                 System.out.println("Победил, красава )))");
 
@@ -318,10 +316,8 @@ public class TicTacToe {
 
         }
 
-        if ((gameMatrix[0][0].equals(symbol) || gameMatrix[0][0].equals(symbol)) && (gameMatrix[1][1].equals(symbol) ||
-                gameMatrix[1][1].equals(symbol)) && (gameMatrix[2][2].equals(symbol) || gameMatrix[2][2].equals(symbol)) ||
-                ((gameMatrix[2][0].equals(symbol) || gameMatrix[2][0].equals(symbol)) && (gameMatrix[1][1].equals(symbol) ||
-                        gameMatrix[1][1].equals(symbol)) && (gameMatrix[0][2].equals(symbol) || gameMatrix[0][2].equals(symbol)))) {
+        if (gameMatrix[0][0].equals(symbol) && gameMatrix[1][1].equals(symbol) && gameMatrix[2][2].equals(symbol) ||
+                gameMatrix[2][0].equals(symbol) && gameMatrix[1][1].equals(symbol) && gameMatrix[0][2].equals(symbol)) {
 
             System.out.println("Победил, красава )))");
 
