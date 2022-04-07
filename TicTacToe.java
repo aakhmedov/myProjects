@@ -11,10 +11,12 @@ public class TicTacToe {
         String[][] gameMatrix = initGameMatrix();
 
         welcomePack(gameMatrix);
+
         switchGameMod(gameMod, gameMatrix, signX, sign0, isStopGame);
 
 
     }
+    // приветствия
 
     public static void welcomePack(String[][] gameMatrix) {
 
@@ -29,19 +31,95 @@ public class TicTacToe {
             System.out.println();
         }
     }
-
+    // переключаем процесс с пвп на пве и играем до тех пор, пока не захотим выйти
     public static void switchGameMod(boolean gameMod, String[][] gameMatrix, String signX, String sign0, boolean isStopGame) {
 
-        gameMod = pvpOrNo();
+        while (!isStopGame) {
+            gameMod = pvpOrNo();
 
-        if (gameMod) {
-            gamePVP(gameMatrix, signX, sign0, isStopGame);
+            if (gameMod) {
 
-        } else {
-            gamePVE(gameMatrix, signX, sign0, isStopGame);
+                gameMatrix = initGameMatrix();
+                gamePVP(gameMatrix, signX, sign0);
+
+            } else {
+
+                gameMatrix = initGameMatrix();
+                gamePVE(gameMatrix, signX, sign0);
+
+            }
+            isStopGame = isStopGame();
         }
     }
 
+    public static void gamePVP(String[][] gameMatrix, String signX, String sign0) {
+
+        while (true) {
+
+            player1Move(gameMatrix, signX);
+
+            if (hasWinner(gameMatrix, signX)) {
+
+                break;
+            }
+            if (!hasEmptyCell(gameMatrix)) {
+
+                System.out.println("Ничья!");
+
+                break;
+            }
+
+            player2Move(gameMatrix, sign0);
+
+            if (hasWinner(gameMatrix, sign0)) {
+                break;
+            }
+
+            if (!hasEmptyCell(gameMatrix)) {
+
+                System.out.println("Ничья!");
+
+                break;
+            }
+
+        }
+
+    }
+    // игровой процесс с пк
+    public static void gamePVE(String[][] gameMatrix, String signX, String sign0) {
+
+        while (true) {
+
+            player1Move(gameMatrix, signX);
+
+            if (hasWinner(gameMatrix, signX)) {
+
+                break;
+            }
+            if (!hasEmptyCell(gameMatrix)) {
+
+                System.out.println("Ничья!");
+
+                break;
+            }
+
+            pcPlayerMove(gameMatrix, sign0);
+
+            if (hasWinner(gameMatrix, sign0)) {
+                break;
+            }
+
+            if (!hasEmptyCell(gameMatrix)) {
+
+                System.out.println("Ничья!");
+
+                break;
+            }
+
+        }
+    }
+
+    //
     public static String getGameMod() {
 
 
@@ -72,7 +150,7 @@ public class TicTacToe {
         }
         return false;
     }
-
+    // принимаем координаты в виде инт массива, сразу отсеивая чепуху в виде букв
     public static int[] getPlayersCoordinates() {
 
         System.out.println("вводи цифрами координаты квадрата 3x3, куда необходимо разместить символ:");
@@ -99,7 +177,7 @@ public class TicTacToe {
         }
     }
 
-
+    // ход 1 игрока
     public static void player1Move(String[][] gameMatrix, String signX) {
         int i;
         int j;
@@ -120,6 +198,7 @@ public class TicTacToe {
 
     }
 
+    //ход второго игрока
     public static void player2Move(String[][] gameMatrix, String sign0) {
         int i;
         int j;
@@ -138,7 +217,7 @@ public class TicTacToe {
         printPlayersSymbol(gameMatrix);
 
     }
-
+     // ход ПК, проверки более простые, тк пк у нас тупенький и генерит все в рамках границ поля
     public static void pcPlayerMove(String[][] gameMatrix, String sign0) {
         int i;
         int j;
@@ -157,81 +236,7 @@ public class TicTacToe {
         printPlayersSymbol(gameMatrix);
     }
 
-    public static boolean gamePVP(String[][] gameMatrix, String signX, String sign0, boolean isStopGame) {
-        while (true) {
-
-            player1Move(gameMatrix, signX);
-
-            if (hasWinner(gameMatrix, signX)) {
-
-                break;
-            }
-            if (!hasEmptyCell(gameMatrix)) {
-
-                System.out.println("Ничья!");
-
-                break;
-            }
-
-            player2Move(gameMatrix, sign0);
-
-            if (hasWinner(gameMatrix, sign0)) {
-                break;
-            }
-
-            if (!hasEmptyCell(gameMatrix)) {
-
-                System.out.println("Ничья!");
-
-                break;
-            }
-
-
-        }
-        isStopGame = isStopGame();
-
-        return isStopGame;
-
-    }
-
-    public static boolean gamePVE(String[][] gameMatrix, String signX, String sign0, boolean isStopGame) {
-        while (true) {
-
-            player1Move(gameMatrix, signX);
-
-            if (hasWinner(gameMatrix, signX)) {
-
-                break;
-            }
-            if (!hasEmptyCell(gameMatrix)) {
-
-                System.out.println("Ничья!");
-
-                break;
-            }
-
-            pcPlayerMove(gameMatrix, sign0);
-
-            if (hasWinner(gameMatrix, sign0)) {
-                break;
-            }
-
-            if (!hasEmptyCell(gameMatrix)) {
-
-                System.out.println("Ничья!");
-
-                break;
-            }
-
-
-        }
-        isStopGame = isStopGame();
-
-        return isStopGame;
-
-    }
-
-
+    // проверка на то, что полученные координаты в рамках поля и что клетка по координатам свободна
     public static boolean isValidCell(String[][] gameMatrix, int i, int j) {
 
         if (i < 0 || i > 2 || j < 0 || j > 2) {
@@ -250,7 +255,7 @@ public class TicTacToe {
 
         return true;
     }
-
+   // простая проверка на пустую клетку для пк
     public static boolean isFreeCellPC(String[][] gameMatrix, int i, int j) {
 
         if (gameMatrix[i][j].equalsIgnoreCase("X") || gameMatrix[i][j].equalsIgnoreCase("0")) {
@@ -296,15 +301,13 @@ public class TicTacToe {
         return gameMatrix;
 
     }
-
+    // к сожалению, пока только такое примитивнейшее сравнение на победу. В свободное время проведу рефакторинг
     public static boolean hasWinner(String[][] gameMatrix, String symbol) {
 
         for (int i = 0; i < 3; i++) {
 
-            if ((gameMatrix[i][0].equals(symbol) || gameMatrix[i][0].equals(symbol)) && (gameMatrix[i][1].equals(symbol) ||
-                    gameMatrix[i][1].equals(symbol)) && (gameMatrix[i][2].equals(symbol) || gameMatrix[i][2].equals(symbol)) ||
-                    ((gameMatrix[0][i].equals(symbol) || gameMatrix[0][i].equals(symbol)) && (gameMatrix[1][i].equals(symbol) ||
-                            gameMatrix[1][i].equals(symbol)) && (gameMatrix[2][i].equals(symbol) || gameMatrix[2][i].equals(symbol)))) {
+            if (gameMatrix[i][0].equals(symbol) && gameMatrix[i][1].equals(symbol) && gameMatrix[i][2].equals(symbol) ||
+                    gameMatrix[0][i].equals(symbol) && gameMatrix[1][i].equals(symbol) && gameMatrix[2][i].equals(symbol)) {
 
                 System.out.println("Победил, красава )))");
 
@@ -313,10 +316,8 @@ public class TicTacToe {
 
         }
 
-        if ((gameMatrix[0][0].equals(symbol) || gameMatrix[0][0].equals(symbol)) && (gameMatrix[1][1].equals(symbol) ||
-                gameMatrix[1][1].equals(symbol)) && (gameMatrix[2][2].equals(symbol) || gameMatrix[2][2].equals(symbol)) ||
-                ((gameMatrix[2][0].equals(symbol) || gameMatrix[2][0].equals(symbol)) && (gameMatrix[1][1].equals(symbol) ||
-                        gameMatrix[1][1].equals(symbol)) && (gameMatrix[0][2].equals(symbol) || gameMatrix[0][2].equals(symbol)))) {
+        if (gameMatrix[0][0].equals(symbol) && gameMatrix[1][1].equals(symbol) && gameMatrix[2][2].equals(symbol) ||
+                gameMatrix[2][0].equals(symbol) && gameMatrix[1][1].equals(symbol) && gameMatrix[0][2].equals(symbol)) {
 
             System.out.println("Победил, красава )))");
 
@@ -327,7 +328,7 @@ public class TicTacToe {
         return false;
     }
 
-
+   // проверка на ничью, в случае, если пустых клеток не осталось
     public static boolean hasEmptyCell(String[][] gameMatrix) {
 
         for (int i = 0; i < gameMatrix.length; i++) {
@@ -363,4 +364,3 @@ public class TicTacToe {
 
 
 
-}
